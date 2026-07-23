@@ -1,0 +1,3 @@
+# Test dependencies. The plugin pins a matching Home Assistant version and
+# pulls in pytest, pytest-asyncio, pytest-cov, and the HA test helpers.
+pytest-homeassistant-custom-component==0.13.205

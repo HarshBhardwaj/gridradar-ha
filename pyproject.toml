@@ -1,0 +1,34 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+pythonpath = ["."]
+addopts = "--cov=custom_components.gridradar --cov-report=term-missing"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+src = ["custom_components"]
+
+[tool.ruff.lint]
+select = [
+    "E",     # pycodestyle errors
+    "W",     # pycodestyle warnings
+    "F",     # pyflakes
+    "I",     # isort
+    "B",     # flake8-bugbear
+    "SIM",   # flake8-simplify
+    "UP",    # pyupgrade
+    "ASYNC", # flake8-async
+    "RUF",   # ruff-specific
+]
+ignore = [
+    "B008", # function call in default arg — HA voluptuous/aiohttp patterns use this
+]
+
+[tool.ruff.lint.isort]
+force-sort-within-sections = true
+known-first-party = ["custom_components.gridradar"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]

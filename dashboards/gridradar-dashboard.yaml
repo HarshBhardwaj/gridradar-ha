@@ -1,0 +1,74 @@
+# Optional GridRadar dashboard.
+#
+# You usually DON'T need this — the integration already creates one device per
+# chargepoint under Settings → Devices & services → GridRadar, and HA builds a
+# device page with every sensor and action button automatically.
+#
+# This file is a convenience if you want a single dedicated view. It uses the
+# `auto-entities` custom card (install "auto-entities" from HACS → Frontend) to
+# list every GridRadar entity without hardcoding chargepoint ids.
+#
+# Add via: Settings → Dashboards → (⋮) → Edit in YAML, or as a new dashboard.
+
+title: GridRadar
+views:
+  - title: Chargers
+    path: gridradar
+    icon: mdi:ev-station
+    cards:
+      - type: custom:auto-entities
+        card:
+          type: entities
+          title: All chargers
+          state_color: true
+        filter:
+          include:
+            - integration: gridradar
+              domain: sensor
+            - integration: gridradar
+              domain: binary_sensor
+        sort:
+          method: name
+
+      - type: custom:auto-entities
+        card:
+          type: grid
+          columns: 2
+          square: false
+        card_param: cards
+        filter:
+          include:
+            - integration: gridradar
+              domain: button
+              options:
+                type: button
+                tap_action:
+                  action: toggle
+          exclude: []
+
+      - type: custom:auto-entities
+        card:
+          type: entities
+          title: Availability
+        filter:
+          include:
+            - integration: gridradar
+              domain: switch
+
+# ---------------------------------------------------------------------------
+# Pure built-in alternative (no custom cards) for a SINGLE known chargepoint.
+# Replace the entity ids to match yours (see Settings → Devices).
+# ---------------------------------------------------------------------------
+#
+#  - type: entities
+#    title: Garage charger
+#    state_color: true
+#    entities:
+#      - binary_sensor.chargepoint_1_ocpp_connected
+#      - sensor.chargepoint_1_status
+#      - sensor.chargepoint_1_charging_power
+#      - sensor.chargepoint_1_session_energy
+#      - sensor.chargepoint_1_ev_state_of_charge
+#      - button.chargepoint_1_start_charge
+#      - button.chargepoint_1_stop_charge
+#      - switch.chargepoint_1_availability

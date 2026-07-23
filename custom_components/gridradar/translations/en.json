@@ -1,0 +1,116 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to GridRadar",
+        "description": "Enter your GridRadar server URL and an API key created under Settings → API. The key needs the scopes: control:chargepoints, read:chargepoints, read:sessions.",
+        "data": {
+          "host": "Server URL",
+          "api_key": "API key (gr_…)",
+          "id_tag": "Default idTag",
+          "connector_id": "Default connector",
+          "verify_ssl": "Verify SSL certificate"
+        },
+        "data_description": {
+          "host": "e.g. https://gridradar.example.com or http://localhost:3500",
+          "api_key": "Paste the gr_… key. It is stored encrypted and never shown again."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Re-enter GridRadar API key",
+        "description": "The stored API key was rejected. Paste a new key to reconnect.",
+        "data": {
+          "api_key": "API key (gr_…)"
+        }
+      }
+    },
+    "error": {
+      "invalid_host": "That doesn't look like a valid http(s) URL.",
+      "invalid_auth": "The API key was rejected (401/403). Check the key and its scopes.",
+      "cannot_connect": "Could not reach the GridRadar server. Check the URL and network.",
+      "unknown": "Unexpected error. See the Home Assistant logs."
+    },
+    "abort": {
+      "already_configured": "This GridRadar server is already configured.",
+      "reauth_successful": "GridRadar reconnected successfully."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "GridRadar options",
+        "data": {
+          "scan_interval": "Polling interval (seconds)",
+          "id_tag": "Default idTag",
+          "connector_id": "Default connector"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "charger_status": { "name": "Status" },
+      "connector_status": { "name": "Connector status" },
+      "last_heartbeat": { "name": "Last heartbeat" },
+      "charging_power": { "name": "Charging power" },
+      "session_energy": { "name": "Session energy" },
+      "ev_soc": { "name": "EV state of charge" },
+      "ev_current": { "name": "Charging current" },
+      "ev_voltage": { "name": "Charging voltage" },
+      "transaction_id": { "name": "Transaction ID" }
+    },
+    "binary_sensor": {
+      "ocpp_connected": { "name": "OCPP connected" },
+      "charging": { "name": "Charging" }
+    },
+    "button": {
+      "start": { "name": "Start charge" },
+      "stop": { "name": "Stop charge" },
+      "reset": { "name": "Reset" },
+      "unlock": { "name": "Unlock connector" },
+      "request_status": { "name": "Refresh status" }
+    },
+    "switch": {
+      "availability": { "name": "Availability" }
+    }
+  },
+  "services": {
+    "remote_start": {
+      "name": "Remote start",
+      "description": "Authorize/start a charge on a GridRadar chargepoint.",
+      "fields": {
+        "id_tag": { "name": "idTag", "description": "RFID / auth tag the charger accepts." },
+        "connector_id": { "name": "Connector", "description": "Connector number on the charger." }
+      }
+    },
+    "remote_stop": {
+      "name": "Remote stop",
+      "description": "Stop the active session (or a specific transaction).",
+      "fields": {
+        "transaction_id": { "name": "Transaction ID", "description": "OCPP transaction id. Omit to stop the active session." }
+      }
+    },
+    "reset": {
+      "name": "Reset",
+      "description": "Reset a chargepoint.",
+      "fields": {
+        "reset_type": { "name": "Reset type", "description": "Soft or Hard reset." }
+      }
+    },
+    "set_availability": {
+      "name": "Set availability",
+      "description": "Change connector availability.",
+      "fields": {
+        "connector_id": { "name": "Connector", "description": "Connector number (0 = whole charger)." },
+        "availability_type": { "name": "Availability", "description": "Operative or Inoperative." }
+      }
+    },
+    "request_status": {
+      "name": "Request status",
+      "description": "Trigger an OCPP StatusNotification so connector status/availability are refreshed.",
+      "fields": {
+        "connector_id": { "name": "Connector", "description": "Connector to refresh. Omit for all connectors." }
+      }
+    }
+  }
+}
