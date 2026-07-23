@@ -6,6 +6,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-07-23
+
+HA 2026 packaging polish: local brand assets, diagnostics, icon translations,
+CI, and corrected GitHub metadata.
+
 ### Added
 
 - Local brand assets under `custom_components/gridradar/brand/` (HA 2026.3+)
@@ -20,6 +25,19 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   API client error mapping, config/options/reauth flows, setup/unload and
   service registration, the coordinator, entity platforms, and diagnostics —
   no hardware required.
+
+### Fixed
+
+- **Manifest metadata**: `codeowners`, `documentation`, and `issue_tracker` now
+  point at [`HarshBhardwaj/gridradar-ha`](https://github.com/HarshBhardwaj/gridradar-ha)
+  instead of the obsolete `harshtylertech` owner.
+
+### Notes
+
+- The HACS downloads list may still show a gray placeholder icon for new custom
+  integrations. That is a known HACS limitation until it serves local/repo brand
+  assets; the icon appears correctly in **Settings → Devices & services** after
+  install on Home Assistant 2026.3+.
 
 ## [0.2.1] - 2026-07-23
 
@@ -84,7 +102,8 @@ Initial release.
   `set_availability`.
 - HACS packaging, translations, and a sample dashboard.
 
-[Unreleased]: https://github.com/HarshBhardwaj/gridradar-ha/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/HarshBhardwaj/gridradar-ha/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/HarshBhardwaj/gridradar-ha/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/HarshBhardwaj/gridradar-ha/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/HarshBhardwaj/gridradar-ha/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/HarshBhardwaj/gridradar-ha/releases/tag/v0.1.0
