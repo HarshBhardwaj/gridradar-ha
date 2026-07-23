@@ -12,7 +12,7 @@
           "verify_ssl": "Verify SSL certificate"
         },
         "data_description": {
-          "host": "e.g. https://gridradar.example.com or http://localhost:3500",
+          "host": "e.g. {example_url} or {example_local_url}",
           "api_key": "Paste the gr_… key. It is stored encrypted and never shown again."
         }
       },
@@ -79,6 +79,7 @@
       "name": "Remote start",
       "description": "Authorize/start a charge on a GridRadar chargepoint.",
       "fields": {
+        "device_id": { "name": "Device", "description": "GridRadar chargepoint device to start." },
         "id_tag": { "name": "idTag", "description": "RFID / auth tag the charger accepts." },
         "connector_id": { "name": "Connector", "description": "Connector number on the charger." }
       }
@@ -87,6 +88,7 @@
       "name": "Remote stop",
       "description": "Stop the active session (or a specific transaction).",
       "fields": {
+        "device_id": { "name": "Device", "description": "GridRadar chargepoint device to stop." },
         "transaction_id": { "name": "Transaction ID", "description": "OCPP transaction id. Omit to stop the active session." }
       }
     },
@@ -94,6 +96,7 @@
       "name": "Reset",
       "description": "Reset a chargepoint.",
       "fields": {
+        "device_id": { "name": "Device", "description": "GridRadar chargepoint device to reset." },
         "reset_type": { "name": "Reset type", "description": "Soft or Hard reset." }
       }
     },
@@ -101,6 +104,7 @@
       "name": "Set availability",
       "description": "Change connector availability.",
       "fields": {
+        "device_id": { "name": "Device", "description": "GridRadar chargepoint device to update." },
         "connector_id": { "name": "Connector", "description": "Connector number (0 = whole charger)." },
         "availability_type": { "name": "Availability", "description": "Operative or Inoperative." }
       }
@@ -109,6 +113,7 @@
       "name": "Request status",
       "description": "Trigger an OCPP StatusNotification so connector status/availability are refreshed.",
       "fields": {
+        "device_id": { "name": "Device", "description": "GridRadar chargepoint device to refresh." },
         "connector_id": { "name": "Connector", "description": "Connector to refresh. Omit for all connectors." }
       }
     }

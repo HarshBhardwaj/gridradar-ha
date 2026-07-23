@@ -108,7 +108,15 @@ class GridRadarConfigFlow(ConfigFlow, domain=DOMAIN):
                 vol.Optional(CONF_VERIFY_SSL, default=DEFAULT_VERIFY_SSL): bool,
             }
         )
-        return self.async_show_form(step_id="user", data_schema=schema, errors=errors)
+        return self.async_show_form(
+            step_id="user",
+            data_schema=schema,
+            errors=errors,
+            description_placeholders={
+                "example_url": "https://gridradar.example.com",
+                "example_local_url": "http://localhost:3500",
+            },
+        )
 
     async def async_step_reauth(
         self, entry_data: Mapping[str, Any]
