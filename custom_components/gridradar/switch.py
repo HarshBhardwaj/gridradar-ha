@@ -15,6 +15,9 @@ from .api import GridRadarError, GridRadarNotConnected
 from .coordinator import GridRadarConfigEntry, GridRadarCoordinator
 from .entity import GridRadarEntity
 
+# Coordinator owns polling; switch commands are sequential per platform.
+PARALLEL_UPDATES = 0
+
 
 async def async_setup_entry(
     hass: HomeAssistant,
@@ -52,7 +55,6 @@ class GridRadarAvailabilitySwitch(GridRadarEntity, SwitchEntity):
     _attr_translation_key = "availability"
     _attr_device_class = SwitchDeviceClass.SWITCH
     _attr_entity_category = EntityCategory.CONFIG
-    _attr_icon = "mdi:power-plug"
 
     def __init__(self, coordinator: GridRadarCoordinator, cp_id: int) -> None:
         """Initialize."""

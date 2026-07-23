@@ -15,6 +15,9 @@ from .api import GridRadarError, GridRadarNotConnected
 from .coordinator import GridRadarConfigEntry, GridRadarCoordinator
 from .entity import GridRadarEntity
 
+# Coordinator owns polling; action presses are sequential per platform.
+PARALLEL_UPDATES = 0
+
 
 @dataclass(frozen=True, kw_only=True)
 class GridRadarButtonDescription(ButtonEntityDescription):
@@ -28,7 +31,6 @@ BUTTONS: tuple[GridRadarButtonDescription, ...] = (
     GridRadarButtonDescription(
         key="start",
         translation_key="start",
-        icon="mdi:play",
         press_fn=lambda c, cp: c.client.async_remote_start(
             cp, connector_id=c.connector_id, id_tag=c.id_tag
         ),
@@ -36,13 +38,11 @@ BUTTONS: tuple[GridRadarButtonDescription, ...] = (
     GridRadarButtonDescription(
         key="stop",
         translation_key="stop",
-        icon="mdi:stop",
         press_fn=lambda c, cp: c.client.async_remote_stop(cp),
     ),
     GridRadarButtonDescription(
         key="reset",
         translation_key="reset",
-        icon="mdi:restart",
         entity_category=EntityCategory.CONFIG,
         refresh_after=False,
         press_fn=lambda c, cp: c.client.async_reset(cp, reset_type="Soft"),
@@ -50,7 +50,6 @@ BUTTONS: tuple[GridRadarButtonDescription, ...] = (
     GridRadarButtonDescription(
         key="unlock",
         translation_key="unlock",
-        icon="mdi:lock-open-variant",
         entity_category=EntityCategory.CONFIG,
         refresh_after=False,
         press_fn=lambda c, cp: c.client.async_unlock_connector(
@@ -60,7 +59,6 @@ BUTTONS: tuple[GridRadarButtonDescription, ...] = (
     GridRadarButtonDescription(
         key="request_status",
         translation_key="request_status",
-        icon="mdi:refresh",
         entity_category=EntityCategory.DIAGNOSTIC,
         press_fn=lambda c, cp: c.client.async_request_status(cp),
     ),

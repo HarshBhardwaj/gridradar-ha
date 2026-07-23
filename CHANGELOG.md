@@ -7,20 +7,26 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 
 ### Added
+
+- Local brand assets under `custom_components/gridradar/brand/` (HA 2026.3+)
+  and a root `brand/icon.png` for HACS validation.
+- `icons.json` for entity and service icon translations (replacing hardcoded
+  platform `icon=` / `_attr_icon` attributes).
+- Downloadable config-entry and device diagnostics with API-key redaction.
+- `PARALLEL_UPDATES = 0` on all entity platforms (coordinator-owned polling).
+- GitHub Actions CI workflow (`.github/workflows/validate.yml`): hassfest,
+  HACS, Ruff, and pytest on Python 3.12 / 3.13.
 - Test suite (`tests/`) using `pytest-homeassistant-custom-component`: covers the
   API client error mapping, config/options/reauth flows, setup/unload and
-  service registration, the coordinator, and all four entity platforms — 26
-  tests, ~86% coverage, no hardware required.
-- CI test job running `pytest` on Python 3.12 and 3.13.
+  service registration, the coordinator, entity platforms, and diagnostics —
+  no hardware required.
 
 ## [0.2.1] - 2026-07-23
 
-CI, plus fixes from an independent QA + security audit.
-
-### Added
-- GitHub Actions CI: hassfest, HACS validation, and Ruff lint/format checks.
+Fixes from an independent QA + security audit.
 
 ### Fixed
+
 - **Multi-server installs**: entity `unique_id`s and device identifiers are now
   scoped to the config entry (`<entry_id>_<cp_id>_…`). Previously two GridRadar
   servers that both number a chargepoint `id=1` would merge into one device and
@@ -40,6 +46,7 @@ Aligned all sensor field paths to the documented `/status` and `/live`
 response shapes, and made availability reflect real device state.
 
 ### Added
+
 - **Connector status** sensor from `/status` `connectors[0].status`.
 - **Charging current** (A) and **charging voltage** (V) sensors from
   `latestMeter.currentAmps` / `latestMeter.voltageVolts`.
@@ -51,9 +58,10 @@ response shapes, and made availability reflect real device state.
 - `last_heartbeat` is now a proper `timestamp` sensor (parsed to datetime).
 
 ### Changed
+
 - **Power / energy / SoC** now read verified paths: `latestMeter.powerKw`,
   `latestMeter.energyWh ÷ 1000` (fallback `activeSession.energyDelivered`),
-  and `latestMeter.soc`. They report *unavailable* when idle (`latestMeter` is
+  and `latestMeter.soc`. They report _unavailable_ when idle (`latestMeter` is
   `null`) instead of guessing.
 - **Availability switch** reads real state from `connectors[].availability` /
   `outOfService`, commands ChangeAvailability, then triggers `/request-status`
@@ -65,6 +73,7 @@ response shapes, and made availability reflect real device state.
 Initial release.
 
 ### Added
+
 - Config-flow setup (server URL + API key, validated on entry, with reauth).
 - Options flow for polling interval, default idTag, and connector.
 - One HA device per chargepoint via `GET /chargepoints`.
@@ -75,7 +84,7 @@ Initial release.
   `set_availability`.
 - HACS packaging, translations, and a sample dashboard.
 
-[Unreleased]: https://github.com/harshtylertech/gridradar-ha/compare/v0.2.1...HEAD
-[0.2.1]: https://github.com/harshtylertech/gridradar-ha/compare/v0.2.0...v0.2.1
-[0.2.0]: https://github.com/harshtylertech/gridradar-ha/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/harshtylertech/gridradar-ha/releases/tag/v0.1.0
+[Unreleased]: https://github.com/HarshBhardwaj/gridradar-ha/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/HarshBhardwaj/gridradar-ha/compare/v0.2.0...v0.2.1
+[0.2.0]: https://github.com/HarshBhardwaj/gridradar-ha/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/HarshBhardwaj/gridradar-ha/releases/tag/v0.1.0

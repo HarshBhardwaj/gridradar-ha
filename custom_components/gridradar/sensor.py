@@ -27,6 +27,9 @@ from homeassistant.util import dt as dt_util
 from .coordinator import GridRadarConfigEntry, GridRadarCoordinator
 from .entity import GridRadarEntity
 
+# Coordinator owns polling; platforms must not fetch in parallel.
+PARALLEL_UPDATES = 0
+
 
 @dataclass(frozen=True, kw_only=True)
 class GridRadarSensorDescription(SensorEntityDescription):
@@ -99,13 +102,11 @@ SENSORS: tuple[GridRadarSensorDescription, ...] = (
     GridRadarSensorDescription(
         key="status",
         translation_key="charger_status",
-        icon="mdi:ev-station",
         value_fn=lambda r: _status(r, "status"),
     ),
     GridRadarSensorDescription(
         key="connector_status",
         translation_key="connector_status",
-        icon="mdi:ev-plug-type2",
         value_fn=lambda r: _connector0(r).get("status"),
     ),
     GridRadarSensorDescription(
@@ -170,7 +171,6 @@ SENSORS: tuple[GridRadarSensorDescription, ...] = (
     GridRadarSensorDescription(
         key="transaction_id",
         translation_key="transaction_id",
-        icon="mdi:identifier",
         entity_category=EntityCategory.DIAGNOSTIC,
         entity_registry_enabled_default=False,
         session_only=True,

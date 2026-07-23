@@ -17,6 +17,9 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from .coordinator import GridRadarConfigEntry, GridRadarCoordinator
 from .entity import GridRadarEntity
 
+# Coordinator owns polling; platforms must not fetch in parallel.
+PARALLEL_UPDATES = 0
+
 
 @dataclass(frozen=True, kw_only=True)
 class GridRadarBinaryDescription(BinarySensorEntityDescription):

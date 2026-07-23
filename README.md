@@ -18,29 +18,29 @@ connection to the charger, exactly like the dashboard.
 
 Each chargepoint becomes a **device** with:
 
-| Entity | Type | Source |
-| --- | --- | --- |
-| OCPP connected | binary_sensor (connectivity) | `/status` → `ocppConnected` |
-| Charging | binary_sensor (battery_charging) | `/live` `activeSession` / connector `Charging` |
-| Status | sensor | `/status` → `status` |
-| Connector status | sensor | `/status` → `connectors[0].status` |
-| Last heartbeat | sensor (diagnostic) | `/status` → `lastHeartbeat` |
-| Charging power (kW) | sensor | `/live` → `latestMeter.powerKw` |
-| Session energy (kWh) | sensor | `/live` → `latestMeter.energyWh` ÷ 1000 |
-| EV state of charge (%) | sensor | `/live` → `latestMeter.soc` |
-| Charging current (A) | sensor | `/live` → `latestMeter.currentAmps` |
-| Charging voltage (V) | sensor (off by default) | `/live` → `latestMeter.voltageVolts` |
-| Transaction ID | sensor (diagnostic) | `/live` → `activeSession.ocppTransactionId` |
-| Start charge | button | `POST /remote-start` |
-| Stop charge | button | `POST /remote-stop` |
-| Reset | button | `POST /reset` (Soft) |
-| Unlock connector | button | `POST /unlock-connector` |
-| Refresh status | button (diagnostic) | `POST /request-status` (TriggerMessage) |
-| Availability | switch | `POST /availability` ↔ `/status` `connectors[].availability` |
+| Entity                 | Type                             | Source                                                       |
+| ---------------------- | -------------------------------- | ------------------------------------------------------------ |
+| OCPP connected         | binary_sensor (connectivity)     | `/status` → `ocppConnected`                                  |
+| Charging               | binary_sensor (battery_charging) | `/live` `activeSession` / connector `Charging`               |
+| Status                 | sensor                           | `/status` → `status`                                         |
+| Connector status       | sensor                           | `/status` → `connectors[0].status`                           |
+| Last heartbeat         | sensor (diagnostic)              | `/status` → `lastHeartbeat`                                  |
+| Charging power (kW)    | sensor                           | `/live` → `latestMeter.powerKw`                              |
+| Session energy (kWh)   | sensor                           | `/live` → `latestMeter.energyWh` ÷ 1000                      |
+| EV state of charge (%) | sensor                           | `/live` → `latestMeter.soc`                                  |
+| Charging current (A)   | sensor                           | `/live` → `latestMeter.currentAmps`                          |
+| Charging voltage (V)   | sensor (off by default)          | `/live` → `latestMeter.voltageVolts`                         |
+| Transaction ID         | sensor (diagnostic)              | `/live` → `activeSession.ocppTransactionId`                  |
+| Start charge           | button                           | `POST /remote-start`                                         |
+| Stop charge            | button                           | `POST /remote-stop`                                          |
+| Reset                  | button                           | `POST /reset` (Soft)                                         |
+| Unlock connector       | button                           | `POST /unlock-connector`                                     |
+| Refresh status         | button (diagnostic)              | `POST /request-status` (TriggerMessage)                      |
+| Availability           | switch                           | `POST /availability` ↔ `/status` `connectors[].availability` |
 
 All field paths are now aligned to the documented `/status` and `/live`
 response shapes. The meter-derived sensors (power/energy/SoC/current/voltage)
-report *unavailable* when the EV isn't charging (`latestMeter` is `null`),
+report _unavailable_ when the EV isn't charging (`latestMeter` is `null`),
 which is expected — not an error.
 
 The **Availability switch** now reads real state: it commands OCPP
@@ -62,10 +62,11 @@ Plus device-targeted **services** for parameterized actions:
 1. Make sure [HACS](https://hacs.xyz) is installed.
 2. Click this button to add the repository to HACS:
 
-   [![Open in HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=harshtylertech&repository=gridradar-ha&category=integration)
+   [![Open in HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=harshbhardwaj&repository=gridradar-ha&category=integration)
 
    Or manually: HACS → (⋮) → **Custom repositories** → add
-   `https://github.com/harshtylertech/gridradar-ha`, category **Integration**.
+   `https://github.com/HarshBhardwaj/gridradar-ha`, category **Integration**.
+
 3. Install **GridRadar** in HACS, then **restart Home Assistant**.
 4. Add the integration:
 
@@ -123,11 +124,11 @@ automation:
   - alias: EV charge overnight start
     trigger:
       - platform: time
-        at: "23:00:00"
+        at: '23:00:00'
     condition:
       - condition: state
         entity_id: binary_sensor.chargepoint_1_ocpp_connected
-        state: "on"
+        state: 'on'
     action:
       - service: gridradar.remote_start
         target:
@@ -164,7 +165,7 @@ pip install -r requirements-test.txt
 pytest
 ```
 
-CI runs three jobs on every push/PR: **hassfest** (HA manifest validation),
+CI runs four jobs on every push/PR: **hassfest** (HA manifest validation),
 **HACS** (repo structure), **Ruff** (lint + format), and **pytest** on Python
 3.12 and 3.13.
 
@@ -184,14 +185,14 @@ CI runs three jobs on every push/PR: **hassfest** (HA manifest validation),
 
 ## Troubleshooting
 
-| Symptom | Likely cause |
-| --- | --- |
-| "Invalid auth" at setup | Wrong key, or missing `control`/`read` scopes |
-| "Cannot connect" at setup | Wrong URL, DNS, or SSL (try Verify SSL off for self-signed) |
-| Buttons error "not connected to OCPP" | Charger offline — wait for OCPP connected = on |
-| Power/energy/SoC unavailable | Normal when idle (`latestMeter` is null); appears once charging |
+| Symptom                                 | Likely cause                                                     |
+| --------------------------------------- | ---------------------------------------------------------------- |
+| "Invalid auth" at setup                 | Wrong key, or missing `control`/`read` scopes                    |
+| "Cannot connect" at setup               | Wrong URL, DNS, or SSL (try Verify SSL off for self-signed)      |
+| Buttons error "not connected to OCPP"   | Charger offline — wait for OCPP connected = on                   |
+| Power/energy/SoC unavailable            | Normal when idle (`latestMeter` is null); appears once charging  |
 | Availability switch shows assumed state | Charger hasn't reported a connector yet — press "Refresh status" |
-| Start does nothing | idTag rejected, EV unplugged, or wrong connector |
+| Start does nothing                      | idTag rejected, EV unplugged, or wrong connector                 |
 
 The GridRadar dashboard **Commands** history shows API-triggered commands with
 `source: "api"` — useful for confirming HA's calls landed.

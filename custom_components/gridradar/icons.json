@@ -1,0 +1,79 @@
+{
+  "entity": {
+    "sensor": {
+      "charger_status": {
+        "default": "mdi:ev-station"
+      },
+      "connector_status": {
+        "default": "mdi:ev-plug-type2"
+      },
+      "last_heartbeat": {
+        "default": "mdi:heart-pulse"
+      },
+      "charging_power": {
+        "default": "mdi:flash"
+      },
+      "session_energy": {
+        "default": "mdi:lightning-bolt"
+      },
+      "ev_soc": {
+        "default": "mdi:battery-charging"
+      },
+      "ev_current": {
+        "default": "mdi:current-ac"
+      },
+      "ev_voltage": {
+        "default": "mdi:sine-wave"
+      },
+      "transaction_id": {
+        "default": "mdi:identifier"
+      }
+    },
+    "binary_sensor": {
+      "ocpp_connected": {
+        "default": "mdi:lan-connect",
+        "state": {
+          "off": "mdi:lan-disconnect"
+        }
+      },
+      "charging": {
+        "default": "mdi:battery-charging",
+        "state": {
+          "off": "mdi:battery"
+        }
+      }
+    },
+    "button": {
+      "start": {
+        "default": "mdi:play"
+      },
+      "stop": {
+        "default": "mdi:stop"
+      },
+      "reset": {
+        "default": "mdi:restart"
+      },
+      "unlock": {
+        "default": "mdi:lock-open-variant"
+      },
+      "request_status": {
+        "default": "mdi:refresh"
+      }
+    },
+    "switch": {
+      "availability": {
+        "default": "mdi:power-plug",
+        "state": {
+          "off": "mdi:power-plug-off"
+        }
+      }
+    }
+  },
+  "services": {
+    "remote_start": "mdi:play",
+    "remote_stop": "mdi:stop",
+    "reset": "mdi:restart",
+    "set_availability": "mdi:power-plug",
+    "request_status": "mdi:refresh"
+  }
+}
