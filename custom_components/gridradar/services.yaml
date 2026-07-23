@@ -1,10 +1,16 @@
 remote_start:
   name: Remote start
   description: Authorize/start a charge on a GridRadar chargepoint (OCPP RemoteStartTransaction).
-  target:
-    device:
-      integration: gridradar
   fields:
+    device_id:
+      name: Device
+      description: GridRadar chargepoint device to start.
+      required: true
+      selector:
+        device:
+          multiple: true
+          filter:
+            - integration: gridradar
     id_tag:
       name: idTag
       description: RFID / auth tag the charger accepts. Defaults to the integration option.
@@ -26,10 +32,16 @@ remote_start:
 remote_stop:
   name: Remote stop
   description: Stop the active session (or a specific transaction) on a chargepoint.
-  target:
-    device:
-      integration: gridradar
   fields:
+    device_id:
+      name: Device
+      description: GridRadar chargepoint device to stop.
+      required: true
+      selector:
+        device:
+          multiple: true
+          filter:
+            - integration: gridradar
     transaction_id:
       name: Transaction ID
       description: OCPP transaction id. Omit to stop the active session.
@@ -42,10 +54,16 @@ remote_stop:
 reset:
   name: Reset
   description: Reset a chargepoint.
-  target:
-    device:
-      integration: gridradar
   fields:
+    device_id:
+      name: Device
+      description: GridRadar chargepoint device to reset.
+      required: true
+      selector:
+        device:
+          multiple: true
+          filter:
+            - integration: gridradar
     reset_type:
       name: Reset type
       description: Soft or Hard reset.
@@ -60,10 +78,16 @@ reset:
 set_availability:
   name: Set availability
   description: Change connector availability (Operative/Inoperative).
-  target:
-    device:
-      integration: gridradar
   fields:
+    device_id:
+      name: Device
+      description: GridRadar chargepoint device to update.
+      required: true
+      selector:
+        device:
+          multiple: true
+          filter:
+            - integration: gridradar
     connector_id:
       name: Connector
       description: Connector number (0 = whole charger).
@@ -90,10 +114,16 @@ request_status:
   description: >-
     Trigger an OCPP StatusNotification (TriggerMessage) so connector status and
     availability are refreshed. Useful right after changing availability.
-  target:
-    device:
-      integration: gridradar
   fields:
+    device_id:
+      name: Device
+      description: GridRadar chargepoint device to refresh.
+      required: true
+      selector:
+        device:
+          multiple: true
+          filter:
+            - integration: gridradar
     connector_id:
       name: Connector
       description: Connector to refresh. Omit for all connectors.
