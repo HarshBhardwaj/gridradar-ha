@@ -35,6 +35,8 @@ CI, and corrected GitHub metadata.
   device filter on `target` ([HA 2025.10 change](https://developers.home-assistant.io/blog/2025/10/14/device-filter-removed-from-target-selector/)).
 - **Hassfest**: config-flow host help text uses translation placeholders for
   example URLs instead of hardcoding them in `strings.json`.
+- **HACS**: repository topics added (`home-assistant`, `hacs`, `custom-component`,
+  etc.) so the HACS Action topics check passes.
 
 ### Notes
 
